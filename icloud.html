@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>AMERAX — Обход геоблока и установка TikTok USA</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #09090b;
+      --bg-card: #141418;
+      --bg-card-sub: #1c1c22;
+      --bg-card-hover: #22222a;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-active: rgba(255, 87, 34, 0.45);
+      --accent: #ff5722;
+      --accent-hover: #ff7043;
+      --accent-glow: rgba(255, 87, 34, 0.35);
+      --text-white: #ffffff;
+      --text-muted: #8e8e99;
+      --text-dim: #60606b;
+      --green: #22c55e;
+      --green-glow: rgba(34, 197, 94, 0.3);
+      --red: #ef4444;
+      --blue: #3b82f6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-white);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---------------- PRELOADER ---------------- */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background: #000000;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s ease;
+    }
+
+    #preloader.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .preloader-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .preloader-crown {
+      width: 28px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preloader-crown svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 2px 8px rgba(255, 87, 34, 0.45));
+    }
+
+    .preloader-name {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: -0.5px;
+    }
+
+    .preloader-track {
+      width: 160px;
+      height: 3px;
+      background: #1c1c20;
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .preloader-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff5722 0%, #22c55e 100%);
+      border-radius: 999px;
+      box-shadow: 0 0 12px rgba(255, 87, 34, 0.75);
+      transition: width 0.08s linear;
+    }
+
+    /* ---------------- LAYOUT ---------------- */
+    .app-wrapper {
+      max-width: 580px;
+      margin: 0 auto;
+      padding: 16px 14px 32px;
+      position: relative;
+    }
+
+    /* Top Bar */
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 4px 18px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .header-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header-sub {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .header-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: -0.2px;
+    }
+
+    .security-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.28);
+      border-radius: 20px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #4ade80;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #22c55e;
+    }
+
+    /* Hero Banner */
+    .hero-img-container {
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 87, 34, 0.25);
+      margin-bottom: 16px;
+      background: #000;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 25px rgba(255, 87, 34, 0.12);
+    }
+
+    .hero-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Safety Card (Главная плашка доверия) */
+    .safety-card {
+      background: linear-gradient(145deg, rgba(34, 197, 94, 0.08) 0%, rgba(20, 20, 24, 0.95) 100%);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4), 0 0 20px rgba(34, 197, 94, 0.08);
+    }
+
+    .safety-card::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 110px;
+      height: 110px;
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .safety-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .shield-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(34, 197, 94, 0.16);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #22c55e;
+    }
+
+    .safety-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.2px;
+    }
+
+    .safety-subtitle {
+      font-size: 12px;
+      color: #4ade80;
+      font-weight: 600;
+    }
+
+    .safety-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .safety-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #d1d5db;
+    }
+
+    .safety-item strong {
+      color: #ffffff;
+    }
+
+    .check-circle {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Explanation Notice */
+    .notice-card {
+      background: rgba(255, 87, 34, 0.08);
+      border: 1px solid rgba(255, 87, 34, 0.28);
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #fed7aa;
+    }
+
+    .notice-card strong {
+      color: #fff;
+    }
+
+    /* Account Data Card */
+    .acc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-active);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .acc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 87, 34, 0.14);
+      border: 1px solid rgba(255, 87, 34, 0.3);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .acc-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .acc-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .acc-field-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card-sub);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 10px 14px;
+    }
+
+    .acc-value {
+      flex: 1;
+      font-family: 'Inter', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-white);
+      user-select: all;
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .copy-btn:active {
+      transform: scale(0.95);
+      opacity: 0.9;
+    }
+
+    .copy-btn.copied {
+      background: #22c55e;
+    }
+
+    /* Section Header */
+    .sec-header {
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sec-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: -0.3px;
+    }
+
+    .sec-badge {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* Steps Cards */
+    .steps-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 20px;
+      position: relative;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .step-card:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .step-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 800;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(255, 87, 34, 0.35);
+    }
+
+    .step-heading-wrap {
+      flex: 1;
+    }
+
+    .step-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 4px;
+      line-height: 1.35;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* iOS Mockup Box */
+    .mockup-box {
+      background: #000000;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 16px;
+      position: relative;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .mockup-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+
+    .mockup-badge svg {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+    }
+
+    .ios-screen {
+      background: #1c1c1e;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 14px;
+      position: relative;
+    }
+
+    /* Visual highlight pointer */
+    .pointer-pulse {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 87, 34, 0.25);
+      border: 2px solid #ff5722;
+      box-shadow: 0 0 10px rgba(255, 87, 34, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .pointer-arrow {
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    /* Warning alert in step 4 */
+    .step-alert {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 12px;
+      line-height: 1.4;
+      color: #fca5a5;
+    }
+
+    .step-alert strong {
+      color: #ffffff;
+    }
+
+    /* FAQ Section */
+    .faq-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .faq-item.active {
+      border-color: rgba(255, 87, 34, 0.4);
+    }
+
+    .faq-q {
+      padding: 16px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .faq-chevron {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-muted);
+      transition: transform 0.3s ease, stroke 0.2s ease;
+    }
+
+    .faq-item.active .faq-chevron {
+      transform: rotate(180deg);
+      stroke: var(--accent);
+    }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      padding: 0 18px;
+    }
+
+    .faq-item.active .faq-a {
+      max-height: 300px;
+      padding: 0 18px 16px;
+    }
+
+    .faq-a strong {
+      color: #ffffff;
+    }
+
+    /* Fixed Bottom Action Bar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(9, 9, 11, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 14px 16px;
+      z-index: 1000;
+    }
+
+    .bottom-bar-inner {
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    .btn-main {
+      width: 100%;
+      background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 16px;
+      padding: 16px 20px;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(255, 87, 34, 0.35);
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .btn-main:active {
+      transform: scale(0.98);
+      opacity: 0.92;
+    }
+
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-60px);
+      background: #22c55e;
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+      z-index: 100000;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Modal Overlay (Unclosable Expired Popup) */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: linear-gradient(145deg, #18181c 0%, #0e0e12 100%);
+      border: 1px solid rgba(239, 68, 68, 0.45);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(239, 68, 68, 0.22);
+      border-radius: 24px;
+      padding: 28px 22px;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+      transform: scale(0.9);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+    }
+
+    .modal-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+
+    .modal-text {
+      font-size: 14px;
+      color: #d1d5db;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .modal-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 14px;
+      padding: 15px 20px;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(255, 87, 34, 0.4);
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .modal-btn:active {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+
+    /* Account Timer Header & Badge */
+    .acc-card-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .acc-timer-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 146px;
+      background: rgba(255, 87, 34, 0.12);
+      border: 1px solid rgba(255, 87, 34, 0.32);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #ff7043;
+      letter-spacing: 0.2px;
+      flex-shrink: 0;
+      box-sizing: border-box;
+      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .timer-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff5722;
+      box-shadow: 0 0 8px #ff5722;
+      flex-shrink: 0;
+    }
+
+    .timer-label {
+      color: #9ca3af;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .timer-val {
+      font-family: 'SF Mono', Consolas, Monaco, ui-monospace, monospace;
+      font-variant-numeric: tabular-nums;
+      -webkit-font-feature-settings: "tnum";
+      font-feature-settings: "tnum";
+      font-weight: 800;
+      color: #ffffff;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      display: inline-block;
+      width: 44px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .acc-timer-badge.warning {
+      background: rgba(239, 68, 68, 0.18);
+      border-color: rgba(239, 68, 68, 0.55);
+      color: #ef4444;
+    }
+
+    .acc-timer-badge.warning .timer-dot {
+      background: #ef4444;
+      box-shadow: 0 0 10px #ef4444;
+    }
+
+    .acc-timer-badge.warning .timer-label {
+      color: #fca5a5;
+    }
+
+    .acc-timer-badge.warning .timer-val {
+      color: #ef4444;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="preloader-brand">
+      <div class="preloader-crown">
+        <svg viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 17L4.5 5L9.5 11L12 3L14.5 11L19.5 5L22 17H2Z" fill="#ff5722"/>
+          <path d="M2 18H22V19.5H2V18Z" fill="#ff5722"/>
+        </svg>
+      </div>
+      <div class="preloader-name">AMERAX</div>
+    </div>
+    <div class="preloader-track">
+      <div class="preloader-fill" id="preloader-fill"></div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span id="toast-text">Скопировано в буфер!</span>
+  </div>
+
+  <!-- UNCLOSABLE EXPIRED MODAL -->
+  <div id="expired-modal" class="modal-overlay" onclick="event.stopPropagation()">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-icon-wrap">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+      </div>
+      <div class="modal-title">Время iCloud истекло</div>
+      <div class="modal-text">
+        Время iCloud истекло. Получите новые данные для входа кнопкой ниже .
+      </div>
+      <button class="modal-btn" onclick="requestNewAccount()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+        </svg>
+        <span>Получить новые данные</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div class="app-wrapper">
+
+    <!-- Top Bar -->
+    <header class="header-bar">
+      <div class="header-left">
+        <div class="icon-btn" onclick="closeWebApp()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </div>
+        <div class="header-info">
+          <div class="header-sub">
+            <svg viewBox="0 0 24 20" fill="#ff5722" width="12" height="10">
+              <path d="M2 17L4.5 5L9.5 11L12 3L14.5 11L19.5 5L22 17H2Z"/>
+            </svg>
+            AMERAX TEAM
+          </div>
+          <div class="header-title">Обход геоблока Apple ID</div>
+        </div>
+      </div>
+      <div class="security-badge" style="background: rgba(255, 87, 34, 0.12); border-color: rgba(255, 87, 34, 0.28); color: #ff7043;">
+        <span>⏱</span>
+        ~2 минуты
+      </div>
+    </header>
+
+    <!-- Hero Image Banner -->
+    <div class="hero-img-container">
+      <img src="assets/banner_step2_tiktok.jpg" alt="AMERAX Скачать TikTok США" class="hero-img"
+        onerror="this.style.display='none'">
+    </div>
+
+    <!-- Green Info Block -->
+    <div class="safety-card">
+      <div class="safety-header">
+        <div class="shield-icon-box">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <polyline points="9 12 11 14 15 10"></polyline>
+          </svg>
+        </div>
+        <div>
+          <div class="safety-title">Как устроен обход геоблока</div>
+          <div class="safety-subtitle">Быстрая смена региона на 2 минуты</div>
+        </div>
+      </div>
+      <div class="safety-list">
+        <div class="safety-item">
+          <div class="check-circle">✓</div>
+          <div><strong>Зачем через Настройки:</strong> TikTok США недоступен в РФ и открывается только при временной смене региона устройства.</div>
+        </div>
+        <div class="safety-item">
+          <div class="check-circle">✓</div>
+          <div><strong>Данные сохраняются:</strong> При выходе выберите «Сохранить копию» — все фото, контакты и заметки останутся на телефоне.</div>
+        </div>
+        <div class="safety-item">
+          <div class="check-circle">✓</div>
+          <div><strong>Всего 2 минуты:</strong> Нажали «Загрузить» в App Store и сразу выходите обратно в свой родной аккаунт.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step-by-Step Guide -->
+    <div class="sec-header">
+      <div class="sec-title">Пошаговая инструкция</div>
+      <div class="sec-badge">6 простых шагов</div>
+    </div>
+
+    <div class="steps-container">
+
+      <!-- STEP 1 -->
+      <div class="step-card">
+        <div class="step-top">
+          <div class="step-number">1</div>
+          <div class="step-heading-wrap">
+            <div class="step-title">Откройте «Настройки» ⚙️ и нажмите на свой Apple ID</div>
+            <div class="step-desc">Откройте системное приложение <strong>Настройки</strong> на вашем iPhone. В самом верху нажмите на первую строку — ваше имя и аватарку профиля Apple ID / iCloud.</div>
+          </div>
+        </div>
+
+        <div class="mockup-box">
+          <div class="mockup-badge">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            Настройки iPhone // Верхняя строка
+          </div>
+          <div class="ios-screen" style="position:relative;">
+            <div style="font-size:22px; font-weight:800; color:#fff; margin-bottom:12px;">Настройки</div>
+            <div style="background:#2c2c2e; border-radius:12px; padding:12px; display:flex; align-items:center; gap:12px; position:relative;">
+              <div style="width:46px; height:46px; border-radius:50%; background:#0a84ff; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; font-weight:700;">
+                👤
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:16px; font-weight:700; color:#fff;">Ваше Имя</div>
+                <div style="font-size:12px; color:#8e8e93;">Apple ID, iCloud, контент и покупки</div>
+              </div>
+              <div class="pointer-pulse" style="top:14px; right:12px;">
+                <span class="pointer-arrow">👈</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step-card">
+        <div class="step-top">
+          <div class="step-number">2</div>
+          <div class="step-heading-wrap">
+            <div class="step-title">Пролистайте вниз и нажмите «Выйти»</div>
+            <div class="step-desc">В меню профиля пролистайте <strong>в самый низ до конца</strong>. Нажмите красную кнопку <strong>«Выйти»</strong>. На вопрос <i>«Сохранить копию данных на iPhone?»</i> — оставьте включенными все галочки (Контакты, Фото, Safari) и подтвердите «Выйти». Все данные останутся на телефоне!</div>
+          </div>
+        </div>
+
+        <div class="mockup-box">
+          <div class="mockup-badge">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            Apple ID // Самый низ списка
+          </div>
+          <div class="ios-screen" style="text-align:center; padding:18px 10px; position:relative;">
+            <div style="font-size:12px; color:#636366; margin-bottom:12px;">Устройства и семейный доступ</div>
+            <div style="position:relative; display:inline-block;">
+              <div style="padding:10px 32px; background:#2c2c2e; border-radius:10px; color:#ff453a; font-weight:800; font-size:16px; border:1px solid #3a3a3c;">
+                Выйти
+              </div>
+              <div class="pointer-pulse" style="top:-8px; right:-12px;">
+                <span class="pointer-arrow">👈</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step-card">
+        <div class="step-top">
+          <div class="step-number">3</div>
+          <div class="step-heading-wrap">
+            <div class="step-title">Нажмите «Вход на iPhone» и введите данные аккаунта США</div>
+            <div class="step-desc">Теперь в Настройках вверху нажмите <strong>«Вход на iPhone»</strong>. Скопируйте логин и пароль кнопками ниже, вставьте их и нажмите «Войти».</div>
+          </div>
+        </div>
+
+        <!-- Ready Credentials Card with Countdown Timer -->
+        <div class="acc-card" style="margin: 16px 0 16px; padding: 18px; background: var(--bg-card-sub); border: 1px solid var(--border-active);">
+          
+          <div class="acc-card-top-bar">
+            <div class="acc-badge" style="margin-bottom: 0;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              Вход на iPhone
+            </div>
+
+            <!-- Dynamic Countdown Timer -->
+            <div id="acc-timer-wrap" class="acc-timer-badge">
+              <span class="timer-dot"></span>
+              <span class="timer-label">Осталось:</span>
+              <span id="acc-timer-display" class="timer-val">10:00</span>
+            </div>
+          </div>
+
+          <div class="acc-row">
+            <span class="acc-label">Email (Apple ID):</span>
+            <div class="acc-field-wrap">
+              <span class="acc-value" id="val-email" onclick="copyText(currentEmail, this)" style="cursor: pointer;" title="Нажмите, чтобы скопировать">amerax.usa2026@gmail.com</span>
+              <button class="copy-btn" onclick="copyText(currentEmail, this)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                Копировать
+              </button>
+            </div>
+          </div>
+
+          <div class="acc-row" style="margin-bottom: 0;">
+            <span class="acc-label">Пароль (Password):</span>
+            <div class="acc-field-wrap">
+              <span class="acc-value" id="val-pass" onclick="copyText(currentPass, this)" style="cursor: pointer;" title="Нажмите, чтобы скопировать">AmeraxTeam2026!</span>
+              <button class="copy-btn" onclick="copyText(currentPass, this)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                Копировать
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step-card">
+        <div class="step-top">
+          <div class="step-number">4</div>
+          <div class="step-heading-wrap">
+            <div class="step-title">«Защита Apple ID» ➔ «Другие варианты»</div>
+            <div class="step-desc">Если появится окно с предложением улучшить безопасность или привязать номер: нажмите <strong>«Другие варианты»</strong>, затем выберите <strong>«Не улучшать»</strong> (или «Не обновлять»).</div>
+          </div>
+        </div>
+
+        <div class="mockup-box">
+          <div class="mockup-badge">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            Системное окно Apple ID
+          </div>
+          <div class="ios-screen" style="text-align:center; padding:16px 12px;">
+            <div style="font-size:15px; font-weight:800; color:#fff; margin-bottom:6px;">Защита учетной записи</div>
+            <div style="font-size:11px; color:#8e8e93; margin-bottom:14px;">Двухфакторная аутентификация</div>
+            
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div style="padding:10px; background:#2c2c2e; border-radius:10px; color:#636366; font-size:13px; font-weight:600;">
+                Продолжить
+              </div>
+              <div style="position:relative; padding:10px; background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.4); border-radius:10px; color:#4ade80; font-size:13px; font-weight:800;">
+                Другие варианты ➔ Не улучшать
+                <div class="pointer-pulse" style="top:-8px; right:-10px;">
+                  <span class="pointer-arrow">👈</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-alert">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" style="flex-shrink:0;">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <div><strong>ВАЖНО:</strong> Ни в коем случае НЕ привязывайте свой номер телефона! Если потребуется 6-значный код подтверждения — вернитесь в бота, код выдается мгновенно!</div>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="step-card">
+        <div class="step-top">
+          <div class="step-number">5</div>
+          <div class="step-heading-wrap">
+            <div class="step-title">Откройте App Store и скачайте TikTok</div>
+            <div class="step-desc">Откройте приложение <strong>App Store</strong> — регион вашего iPhone переключился на США 🇺🇸, геоблокировка полностью снята! Найдите <strong>TikTok</strong> и нажмите <strong>«Загрузить» (Get / ☁️)</strong>.</div>
+          </div>
+        </div>
+
+        <div class="mockup-box">
+          <div class="mockup-badge">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            App Store USA // Карточка приложения
+          </div>
+          <div class="ios-screen" style="display:flex; align-items:center; justify-content:space-between; position:relative;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:48px; height:48px; border-radius:12px; background:#000; border:1px solid #333; display:flex; align-items:center; justify-content:center; font-size:24px;">
+                🎵
+              </div>
+              <div>
+                <div style="font-size:15px; font-weight:800; color:#fff;">TikTok</div>
+                <div style="font-size:11px; color:#8e8e93;">TikTok Pte. Ltd. • 12+</div>
+              </div>
+            </div>
+
+            <!-- Get Button with pulse -->
+            <div style="position:relative;">
+              <div style="padding:6px 18px; background:#0a84ff; border-radius:18px; color:#fff; font-size:13px; font-weight:800; display:flex; align-items:center; gap:4px;">
+                <span>☁️</span> СКАЧАТЬ
+              </div>
+              <div class="pointer-pulse" style="top:-8px; right:-10px;">
+                <span class="pointer-arrow">👈</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 6 -->
+      <div class="step-card">
+        <div class="step-top">
+          <div class="step-number">6</div>
+          <div class="step-heading-wrap">
+            <div class="step-title">Вернитесь в «Настройки» и войдите обратно в свой iCloud</div>
+            <div class="step-desc">Как только скачивание началось — вернитесь в <strong>Настройки ⚙️</strong>, нажмите на профиль вверху, пролистайте вниз и нажмите красную кнопку <strong>«Выйти»</strong>. Затем войдите в свой родной Apple ID!</div>
+          </div>
+        </div>
+
+        <div style="background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.25); border-radius: 14px; padding: 12px 14px; margin-top: 12px;">
+          <div style="font-size: 13px; color: #d1d5db; line-height: 1.45;">
+            🎉 <strong>Готово:</strong> Американский TikTok установлен и останется на вашем телефоне навсегда.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FAQ Accordion -->
+    <div class="sec-header">
+      <div class="sec-title">Частые вопросы</div>
+      <div class="sec-badge">FAQ</div>
+    </div>
+
+    <div class="faq-container">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span>Не удалятся ли мои фото и контакты при выходе?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <div class="faq-a">
+          <strong>Нет, ничего не удалится.</strong> При нажатии «Выйти» из Apple ID система iOS сама спрашивает: <i>«Оставить копию данных на этом iPhone?»</i>. Вы оставляете галочки включенными и нажимаете «Сохранить». Все фото, заметки, контакты и данные приложений остаются на телефоне в целости и сохранности.
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span>Может ли телефон заблокироваться («Локатор»)?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <div class="faq-a">
+          <strong>Исключено.</strong> Наш рабочий аккаунт используется исключительно как технический профиль для скачивания приложений из региона США. Вы не включаете функцию «Локатор» (Find My), пароль от экрана телефона и Face ID знаете только вы, и сразу после загрузки TikTok вы выходите обратно.
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span>Останется ли TikTok после выхода из аккаунта США?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <div class="faq-a">
+          <strong>Да, навсегда.</strong> Как только приложение скачалось на рабочий стол iPhone, оно привязывается к устройству. Вы можете спокойно возвращаться в свой личный профиль — TikTok продолжит открываться и работать без ограничений.
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span>Что если запрашивает проверочный код (SMS)?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <div class="faq-a">
+          Сначала нажмите <strong>«Другие варианты» ➔ «Не улучшать»</strong>. Если же код всё равно требуется — вернитесь в Telegram-бота AMERAX и нажмите «Получить код» — система мгновенно выдаст 6-значный код подтверждения.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentEmail = "amerax.usa2026@gmail.com";
+    let currentPass = "AmeraxTeam2026!";
+    let timerSeconds = 600;
+    let timerInterval = null;
+    let isExpired = false;
+
+    function formatTime(totalSecs) {
+      if (totalSecs <= 0) return "00:00";
+      const m = Math.floor(totalSecs / 60);
+      const s = totalSecs % 60;
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function showExpiredModal() {
+      if (isExpired) return;
+      isExpired = true;
+      if (timerInterval) clearInterval(timerInterval);
+
+      const modal = document.getElementById('expired-modal');
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      const timerEl = document.getElementById('acc-timer-display');
+      if (timerEl) timerEl.textContent = "00:00";
+
+      // Haptic feedback
+      try {
+        if (tg?.HapticFeedback) {
+          tg.HapticFeedback.notificationOccurred('error');
+        }
+      } catch (e) {}
+    }
+
+    function requestNewAccount() {
+      // Динамический bot username из параметров URL (bot=...)
+      const botParam = urlParams.get('bot') || '';
+      const botDeeplink = botParam ? `https://t.me/${botParam}?start=new_icloud` : '';
+
+      try {
+        if (window.Telegram?.WebApp) {
+          if (botDeeplink && tg?.openTelegramLink) {
+            tg.openTelegramLink(botDeeplink);
+            try { tg.close(); } catch (e) {}
+            return;
+          }
+          if (tg?.sendData) {
+            tg.sendData('request_new_apple_id');
+            return;
+          }
+          if (tg?.close) {
+            tg.close();
+            return;
+          }
+        }
+      } catch (e) {}
+
+      if (botDeeplink) {
+        window.location.href = botDeeplink;
+      }
+    }
+
+    function startCountdown(initialSeconds, absoluteEndTimeSec) {
+      if (timerInterval) clearInterval(timerInterval);
+
+      // Если передана абсолютная метка UTC, привязываемся к ней, иначе к clientNow + initialSeconds
+      const clientNow = Math.floor(Date.now() / 1000);
+      const targetEndTime = (absoluteEndTimeSec && absoluteEndTimeSec > 0)
+        ? absoluteEndTimeSec
+        : (clientNow + initialSeconds);
+
+      function updateTimer() {
+        const now = Math.floor(Date.now() / 1000);
+        timerSeconds = Math.max(0, targetEndTime - now);
+
+        const timerEl = document.getElementById('acc-timer-display');
+        const timerWrap = document.getElementById('acc-timer-wrap');
+
+        if (timerEl) {
+          timerEl.textContent = formatTime(timerSeconds);
+        }
+
+        if (timerSeconds <= 60 && timerWrap && !timerWrap.classList.contains('warning')) {
+          timerWrap.classList.add('warning');
+          try {
+            if (tg?.HapticFeedback) {
+              tg.HapticFeedback.impactOccurred('medium');
+            }
+          } catch (e) {}
+        }
+
+        if (timerSeconds <= 0) {
+          clearInterval(timerInterval);
+          showExpiredModal();
+        }
+      }
+
+      updateTimer();
+      timerInterval = setInterval(updateTimer, 1000);
+
+      // Пересинхронизация при разблокировке телефона или возврате во вкладку
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && !isExpired) {
+          updateTimer();
+        }
+      });
+    }
+
+    function initCredentialsFromUrl() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        let email = urlParams.get('email') || urlParams.get('login') || urlParams.get('mail');
+        let pass = urlParams.get('pass') || urlParams.get('password') || urlParams.get('pwd');
+        let expParam = urlParams.get('exp') || urlParams.get('expire') || urlParams.get('expires');
+        let tsParam = urlParams.get('ts') || urlParams.get('server_time') || urlParams.get('created');
+        let timeParam = urlParams.get('time') || urlParams.get('seconds') || urlParams.get('timer') || urlParams.get('ttl') || urlParams.get('left');
+
+        if (!email || !pass || (!expParam && !timeParam)) {
+          if (window.location.hash && window.location.hash.length > 1) {
+            const hashStr = window.location.hash.substring(1).replace(/^\?/, '');
+            const hashParams = new URLSearchParams(hashStr);
+            email = email || hashParams.get('email') || hashParams.get('login');
+            pass = pass || hashParams.get('pass') || hashParams.get('password');
+            expParam = expParam || hashParams.get('exp') || hashParams.get('expire') || hashParams.get('expires');
+            tsParam = tsParam || hashParams.get('ts') || hashParams.get('server_time') || hashParams.get('created');
+            timeParam = timeParam || hashParams.get('time') || hashParams.get('seconds') || hashParams.get('timer') || hashParams.get('ttl') || hashParams.get('left');
+          }
+        }
+
+        if (email) {
+          currentEmail = decodeURIComponent(email.trim());
+          const elEmail = document.getElementById('val-email');
+          if (elEmail) elEmail.textContent = currentEmail;
+        }
+        if (pass) {
+          currentPass = decodeURIComponent(pass.trim());
+          const elPass = document.getElementById('val-pass');
+          if (elPass) elPass.textContent = currentPass;
+        }
+
+        // --- ВЫЧИСЛЕНИЕ РЕАЛЬНОГО ВРЕМЕНИ (UTC, НЕ ЗАВИСИТ ОТ ЧАСОВОГО ПОЯСА) ---
+        // Date.now() возвращает всемирные миллисекунды UTC в любой точке мира
+        const clientNow = Math.floor(Date.now() / 1000);
+        const expTs = expParam ? parseInt(expParam, 10) : 0;
+        const genTs = tsParam ? parseInt(tsParam, 10) : 0;
+        let parsedTime = parseInt(timeParam, 10);
+
+        let remainingSeconds = 600;
+        let absoluteEnd = 0;
+
+        if (expTs > 0) {
+          // Если есть абсолютный таймштамп окончания:
+          let calculated = expTs - clientNow;
+
+          // Защита от сдвига часов на устройстве пользователя:
+          if (genTs > 0) {
+            if (clientNow < genTs) {
+              // Часы отстают от сервера: берем честный остаток на момент создания
+              calculated = Math.max(0, expTs - genTs);
+              absoluteEnd = clientNow + calculated;
+            } else {
+              absoluteEnd = expTs;
+            }
+          } else {
+            absoluteEnd = expTs;
+          }
+
+          remainingSeconds = calculated;
+        } else if (!isNaN(parsedTime) && parsedTime > 0) {
+          remainingSeconds = parsedTime;
+          absoluteEnd = clientNow + remainingSeconds;
+        }
+
+        if (isNaN(remainingSeconds)) {
+          remainingSeconds = 600;
+        }
+
+        startCountdown(remainingSeconds, absoluteEnd);
+      } catch (e) {
+        console.error("Ошибка парсинга параметров аккаунта:", e);
+      }
+    }
+
+    // Unclosable modal protection: intercept Escape
+    window.addEventListener('keydown', (e) => {
+      if (isExpired && (e.key === 'Escape' || e.keyCode === 27)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true);
+
+    initCredentialsFromUrl();
+
+    // Telegram WebApp Initialization
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+      try {
+        tg.enableClosingConfirmation();
+      } catch (e) {}
+    }
+
+    // Preloader Animation
+    window.addEventListener('load', () => {
+      const fill = document.getElementById('preloader-fill');
+      const preloader = document.getElementById('preloader');
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 25;
+        if (fill) fill.style.width = progress + '%';
+        if (progress >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            if (preloader) preloader.classList.add('fade-out');
+          }, 250);
+        }
+      }, 50);
+    });
+
+    // Copy to clipboard with toast and haptic feedback
+    function copyText(text, btnElement) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text);
+      } else {
+        const input = document.createElement('input');
+        input.value = text;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+      }
+
+      // Haptic feedback
+      try {
+        if (tg?.HapticFeedback) {
+          tg.HapticFeedback.notificationOccurred('success');
+        }
+      } catch (e) {}
+
+      // Toast
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toast-text');
+      if (toast) {
+        toastText.textContent = 'Скопировано: ' + text;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2200);
+      }
+
+      // Button state
+      if (btnElement) {
+        const origText = btnElement.innerHTML;
+        btnElement.classList.add('copied');
+        btnElement.innerHTML = `✓ Скопировано`;
+        setTimeout(() => {
+          btnElement.classList.remove('copied');
+          btnElement.innerHTML = origText;
+        }, 1800);
+      }
+    }
+
+    // Toggle FAQ
+    function toggleFaq(element) {
+      try {
+        if (tg?.HapticFeedback) {
+          tg.HapticFeedback.impactOccurred('light');
+        }
+      } catch (e) {}
+      element.classList.toggle('active');
+    }
+
+    // Finish and close back to bot
+    function finishAndClose() {
+      try {
+        if (tg?.HapticFeedback) {
+          tg.HapticFeedback.notificationOccurred('success');
+        }
+      } catch (e) {}
+
+      if (tg) {
+        // Send data to bot to trigger Step 3
+        try {
+          tg.sendData('tiktok_installed');
+        } catch (e) {}
+        tg.close();
+      } else {
+        alert('Отлично! Теперь возвращайтесь в Telegram-бота и жмите «Продолжить».');
+      }
+    }
+
+    function closeWebApp() {
+      if (tg) {
+        tg.close();
+      }
+    }
+  </script>
+</body>
+
+</html>
